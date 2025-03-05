@@ -1,58 +1,64 @@
 apiVersion: argoproj.io/v1alpha1
-kind: Workflow
+kind: CronWorkflow
 metadata:
   name: ml-spark-pipeline
 spec:
   schedule: "* * * * *"
+  timezone: "America/Sao_Paulo"
+  successfulJobsHistoryLimit: 2
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 4
+  suspend: false
+  workflowSpec:
+    entrypoint: ml-pipeline
+    serviceAccountName: spark-sa
+    templates:
+      - name: ml-pipeline
+        dag:
+          tasks:
+            - name: spark-extract-data
+              template: spark-extract-data
+            
+            - name: make-predictions
+              template: make-predictions
+              dependencies: [spark-extract-data]
 
-  entrypoint: ml-pipeline
-  templates:
-    - name: ml-pipeline
-      dag:
-        tasks:
-          - name: spark-extract-data
-            template: spark-extract-data
-          
-          - name: make-predictions
-            template: make-predictions
-            dependencies: [spark-extract-data]
+      - name: spark-extract-data
+        resource:
+          action: create
+          manifest: |
+            apiVersion: sparkoperator.k8s.io/v1beta2
+            kind: SparkApplication
+            metadata:
+              name: spark-pi
+              namespace: default
+            spec:
+              type: Scala
+              mode: cluster
+              image: spark:3.5.3
+              imagePullPolicy: IfNotPresent
+              mainClass: org.apache.spark.examples.SparkPi
+              mainApplicationFile: local:///opt/spark/examples/jars/spark-examples.jar
+              arguments:
+              - "5000"
+              sparkVersion: 3.5.3
+              driver:
+                labels:
+                  version: 3.5.3
+                cores: 1
+                memory: 512m
+                serviceAccount: spark-operator-spark
+              executor:
+                labels:
+                  version: 3.5.3
+                instances: 1
+                cores: 1
+                memory: 512m
 
-    - name: spark-extract-data
-      resource:
-        action: create
-        manifest: |
-          apiVersion: sparkoperator.k8s.io/v1beta2
-          kind: SparkApplication
-          metadata:
-            name: spark-pi
-            namespace: default
-          spec:
-            type: Scala
-            mode: cluster
-            image: spark:3.5.3
-            imagePullPolicy: IfNotPresent
-            mainClass: org.apache.spark.examples.SparkPi
-            mainApplicationFile: local:///opt/spark/examples/jars/spark-examples.jar
-            arguments:
-            - "5000"
-            sparkVersion: 3.5.3
-            driver:
-              labels:
-                version: 3.5.3
-              cores: 1
-              memory: 512m
-              serviceAccount: spark-operator-spark
-            executor:
-              labels:
-                version: 3.5.3
-              instances: 1
-              cores: 1
-              memory: 512m
-
-    - name: make-predictions
-      container:
-        image: alpine:latest
-        command: [sh, -c]
-        args: [
-          'echo echo "[1,2,3,4]"'
-        ]
+      - name: make-predictions
+        container:
+          image: alpine:latest
+          command: [sh, -c]
+          args: [
+            'echo echo "[1,2,3,4]"'
+          ]
