@@ -1,0 +1,9 @@
+crds:
+  install: true
+  keep: false
+
+dex:
+  enabled: false
+
+params:
+  server.insecure: true

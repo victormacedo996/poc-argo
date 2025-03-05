@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: config-map-workflows
+  namespace: argo-cd
+spec:
+  generators:
+    - git:
+        repoURL: git@github.com:victormacedo996/poc-argo.git
+        revision: HEAD
+        directories:
+          # workflows/env/bu(vnda,tiny,etc)/team(bsa,etc)/workflow.yaml
+          - path: "workflows/**/**/**/*"
+  template:
+    metadata:
+      name: "cm.{{path.basenameNormalized}}.{{path[3]}}.{{path[2]}}.{{path[1]}}"
+      labels:
+        workflow: "{{path.basenameNormalized}}"
+        team: "{{path[3]}}"
+        bu: "{{path[2]}}"
+        environment: "{{path[1]}}"
+    spec:
+      project: default
+      source:
+        repoURL: git@github.com:victormacedo996/poc-argo.git
+        targetRevision: HEAD
+        path: "{{path}}"
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: "workflows"
+      syncPolicy:
+        automated:
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - FailOnSharedResource=true
+      info:
+        - name: workflow
+          value: "{{path.basenameNormalized}}"
+        - name: team
+          value: "{{path[3]}}"
+        - name: bu
+          value: "{{path[2]}}"
+        - name: environment
+          value: "{{path[1]}}"
