@@ -22,7 +22,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: git@github.com:victormacedo996/poc-argo.git
+        repoURL: https://github.com/victormacedo996/poc-argo
         targetRevision: HEAD
         path: "{{path}}"
       destination:
