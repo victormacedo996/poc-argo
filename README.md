@@ -37,3 +37,12 @@ helm upgrade --install spark-operator spark-operator/spark-operator \
 
 4. Aplicar o Application set para syncar os workflows
 `kubectl apply -f ./manifests/argocd/applicationset.yaml`
+
+
+Senha inicial ArgoCD
+`kubectl -n argo-cd get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d`
+Portforward ArgoCD
+`kubectl port-forward service/argocd-server -n argo-cd 8080:443`
+
+Portforward argo workflow
+`kubectl port-forward service/argo-workflow-argo-workflows-server 2746:2746 -n argo-workflow`

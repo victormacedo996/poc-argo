@@ -5,5 +5,7 @@ crds:
 dex:
   enabled: false
 
-params:
-  server.insecure: true
+configs:
+  params:
+    server.insecure: true
+    applicationsetcontroller.enable.progressive.syncs: true
