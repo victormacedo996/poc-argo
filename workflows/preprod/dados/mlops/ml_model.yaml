@@ -57,6 +57,8 @@ spec:
                 instances: 1
                 cores: 1
                 memory: 512m
+        archiveLocation:
+          archiveLogs: true
 
       - name: make-predictions
         container:
@@ -65,3 +67,5 @@ spec:
           args: [
             'echo echo "[1,2,3,4]"'
           ]
+        archiveLocation:
+          archiveLogs: true
