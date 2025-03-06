@@ -11,7 +11,6 @@ spec:
   suspend: false
   workflowSpec:
     entrypoint: ml-pipeline
-    # onExit: cleanup-sparkapplication
     templates:
       - name: ml-pipeline
         dag:
@@ -78,37 +77,3 @@ spec:
           args: [
             'echo echo "[1,2,3,4]"'
           ]
-
-      # - name: cleanup-sparkapplication
-      #   resource:
-      #     action: delete
-      #     flags: ["--ignore-not-found=true"]
-      #     manifest: |
-      #       apiVersion: sparkoperator.k8s.io/v1beta2
-      #       kind: SparkApplication
-      #       metadata:
-      #         name: spark-pi
-      #         namespace: default
-      #       spec:
-      #         timeToLiveSeconds: 10
-      #         type: Scala
-      #         mode: cluster
-      #         image: spark:3.5.3
-      #         imagePullPolicy: IfNotPresent
-      #         mainClass: org.apache.spark.examples.SparkPi
-      #         mainApplicationFile: local:///opt/spark/examples/jars/spark-examples.jar
-      #         arguments:
-      #         - "5000"
-      #         sparkVersion: 3.5.3
-      #         driver:
-      #           labels:
-      #             version: 3.5.3
-      #           cores: 1
-      #           memory: 512m
-      #           serviceAccount: spark-operator-spark
-      #         executor:
-      #           labels:
-      #             version: 3.5.3
-      #           instances: 1
-      #           cores: 1
-      #           memory: 512m
