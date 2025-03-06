@@ -8,8 +8,8 @@ help: ## Show this help
 	@egrep -h '\s##\s' $(MAKEFILE_LIST) | sort | awk 'BEGIN {FS = ":.*?# "}; {printf "\033[36m%-40s\033[0m %s\n", $$1, $$2}'
 
 check-dependencies: ## Check dependencies
-	# Checking dependency: terraform
-	@terraform --version
+	# # Checking dependency: terraform
+	# @terraform --version
 
 	# Checking dependency: helm
 	@helm version
@@ -49,3 +49,5 @@ install-spark-operator: check-dependencies ## Install Spark Operator
 		--create-namespace \
 		--values ./apps/spark-operator/values.yaml \
 		--wait
+
+install-all: check-dependencies add-helm-repositories install-spark-operator install-argo-workflow install-argocd ## Install all resources

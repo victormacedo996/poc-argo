@@ -1,52 +1,27 @@
-# Create a dedicated ServiceAccount
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  name: spark-workflow-sa
-  namespace: default
-
----
-# Create a ClusterRole with full permissions for SparkApplications
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRole
 metadata:
-  name: spark-operator-role
+  name: spark-cluster-cr
+  labels:
+    rbac.authorization.kubeflow.org/aggregate-to-kubeflow-edit: "true"
 rules:
-- apiGroups:
-  - sparkoperator.k8s.io
-  resources:
-  - sparkapplications
-  - sparkapplications/status
-  - sparkapplications/finalizers
-  verbs:
-  - '*'
-
+  - apiGroups:
+      - sparkoperator.k8s.io
+    resources:
+      - sparkapplications
+    verbs:
+      - '*'
 ---
-# Create a ClusterRoleBinding (not just a RoleBinding)
+# Allow airflow-worker service account access for spark-on-k8s
 apiVersion: rbac.authorization.k8s.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: spark-operator-rolebinding
+  name: argo-spark-crb
 roleRef:
   apiGroup: rbac.authorization.k8s.io
   kind: ClusterRole
-  name: spark-operator-role
+  name: spark-cluster-cr
 subjects:
-- kind: ServiceAccount
-  name: default
-  namespace: workflow
-
----
-# If you're using a custom ServiceAccount in your workflow, use this binding instead
-apiVersion: rbac.authorization.k8s.io/v1
-kind: ClusterRoleBinding
-metadata:
-  name: spark-workflow-rolebinding
-roleRef:
-  apiGroup: rbac.authorization.k8s.io
-  kind: ClusterRole
-  name: spark-operator-role
-subjects:
-- kind: ServiceAccount
-  name: spark-workflow-sa
-  namespace: default
+  - kind: ServiceAccount
+    name: default
+    namespace: argo-workflow
