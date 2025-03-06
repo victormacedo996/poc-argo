@@ -1,7 +1,7 @@
 apiVersion: argoproj.io/v1alpha1
 kind: CronWorkflow
 metadata:
-  name: ml-spark-pipeline
+  name: ml-spark-pipeline2
 spec:
   schedule: "* * * * *"
   timezone: "America/Sao_Paulo"
