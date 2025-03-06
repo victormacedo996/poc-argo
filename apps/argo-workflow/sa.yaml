@@ -24,4 +24,26 @@ roleRef:
 subjects:
   - kind: ServiceAccount
     name: default
-    namespace: argo-workflow
+    namespace: workflow
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: argo-workflowtaskresults-role
+rules:
+  - apiGroups: ["argoproj.io"]
+    resources: ["workflowtaskresults"]
+    verbs: ["create", "update", "patch"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: argo-workflowtaskresults-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: argo-workflowtaskresults-role
+subjects:
+  - kind: ServiceAccount
+    name: default
+    namespace: workflow

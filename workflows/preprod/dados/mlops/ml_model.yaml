@@ -11,10 +11,7 @@ spec:
   suspend: false
   workflowSpec:
     entrypoint: ml-pipeline
-    # serviceAccountName: spark-workflow-sa
     onExit: cleanup-sparkapplication
-    # executor:
-    #   serviceAccountName: spark-workflow-sa
     templates:
       - name: ml-pipeline
         dag:
@@ -62,8 +59,6 @@ spec:
                 instances: 1
                 cores: 1
                 memory: 512m
-        archiveLocation:
-          archiveLogs: true
 
       - name: wait-for-spark-completion-template
         resource:
@@ -83,8 +78,6 @@ spec:
           args: [
             'echo echo "[1,2,3,4]"'
           ]
-        archiveLocation:
-          archiveLogs: true
 
       - name: cleanup-sparkapplication
         resource:
