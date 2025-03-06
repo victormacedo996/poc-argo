@@ -35,6 +35,7 @@ spec:
               name: spark-pi
               namespace: default
             spec:
+              timeToLiveSeconds: 10
               type: Scala
               mode: cluster
               image: spark:3.5.3
