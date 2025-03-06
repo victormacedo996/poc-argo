@@ -68,7 +68,7 @@ spec:
             metadata:
               name: spark-pi
               namespace: default
-          successCondition: status.applicationState.state in (COMPLETED, FAILED)
+          successCondition: status.applicationState.state in (COMPLETED)
 
       - name: make-predictions
         container:
