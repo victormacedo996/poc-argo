@@ -34,7 +34,7 @@ roleRef:
 subjects:
 - kind: ServiceAccount
   name: default
-  namespace: default
+  namespace: workflow
 
 ---
 # If you're using a custom ServiceAccount in your workflow, use this binding instead
