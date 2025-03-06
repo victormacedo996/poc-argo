@@ -20,13 +20,17 @@ spec:
         dag:
           tasks:
             - name: spark-extract-data
-              template: spark-extract-data
+              template: spark-extract-data-template
+
+            - name: wait-for-spark
+              template: wait-for-spark-completion-template
+              dependencies: [spark-extract-data]
             
             - name: make-predictions
               template: make-predictions
-              dependencies: [spark-extract-data]
+              dependencies: [wait-for-spark]
 
-      - name: spark-extract-data
+      - name: spark-extract-data-template
         resource:
           action: create
           manifest: |
@@ -61,7 +65,7 @@ spec:
         archiveLocation:
           archiveLogs: true
 
-      - name: wait-for-spark-completion
+      - name: wait-for-spark-completion-template
         resource:
           action: get
           manifest: |
