@@ -14,13 +14,13 @@ spec:
     serviceAccountName: spark-workflow-sa
     executor:
       serviceAccountName: spark-workflow-sa
-    onExit: cleanup-sparkapplication
     templates:
       - name: ml-pipeline
         dag:
           tasks:
             - name: spark-extract-data
               template: spark-extract-data
+              onExit: cleanup-sparkapplication
             
             - name: make-predictions
               template: make-predictions
