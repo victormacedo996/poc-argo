@@ -41,7 +41,7 @@ spec:
               mode: cluster
               image: spark:3.5.3
               imagePullPolicy: IfNotPresent
-              mainClass: org.apache.spark.examples.SparkPi
+              mainClass: org.apache.spark.examples.SparkPi2
               mainApplicationFile: local:///opt/spark/examples/jars/spark-examples.jar
               arguments:
               - "5000"
