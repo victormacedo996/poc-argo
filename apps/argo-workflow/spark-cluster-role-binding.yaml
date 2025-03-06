@@ -5,7 +5,7 @@ metadata:
 subjects:
   - kind: ServiceAccount
     name: spark-sa
-    namespace: default
+    namespace: argo-workflow
 roleRef:
   kind: ClusterRole
   name: spark-cluster-role
