@@ -11,7 +11,9 @@ spec:
   suspend: false
   workflowSpec:
     entrypoint: ml-pipeline
-    serviceAccountName: aa
+    serviceAccountName: spark-sa
+    executor:
+      serviceAccountName: spark-sa
     templates:
       - name: ml-pipeline
         dag:
