@@ -11,7 +11,7 @@ spec:
   suspend: false
   workflowSpec:
     entrypoint: ml-pipeline
-    onExit: cleanup-sparkapplication
+    # onExit: cleanup-sparkapplication
     templates:
       - name: ml-pipeline
         dag:
