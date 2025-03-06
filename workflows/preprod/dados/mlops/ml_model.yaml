@@ -12,6 +12,7 @@ spec:
   workflowSpec:
     entrypoint: ml-pipeline
     serviceAccountName: spark-workflow-sa
+    onExit: cleanup-sparkapplication
     executor:
       serviceAccountName: spark-workflow-sa
     templates:
@@ -20,7 +21,6 @@ spec:
           tasks:
             - name: spark-extract-data
               template: spark-extract-data
-              onExit: cleanup-sparkapplication
             
             - name: make-predictions
               template: make-predictions
@@ -60,6 +60,17 @@ spec:
                 memory: 512m
         archiveLocation:
           archiveLogs: true
+
+      - name: wait-for-spark-completion
+        resource:
+          action: get
+          manifest: |
+            apiVersion: sparkoperator.k8s.io/v1beta2
+            kind: SparkApplication
+            metadata:
+              name: spark-pi
+              namespace: default
+          successCondition: status.applicationState.state in (COMPLETED, FAILED)
 
       - name: make-predictions
         container:
