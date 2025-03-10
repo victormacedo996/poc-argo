@@ -37,12 +37,12 @@ spec:
                       image: alpine:latest
                       command: [sh, -c]
                       args: [
-                        'echo hello-world-1"'
+                        'echo "hello-world-1"'
                       ]
                   - name: hello-2-template
                     container:
                       image: alpine:latest
                       command: [sh, -c]
                       args: [
-                        'echo hello-world-2"'
+                        'echo "hello-world-2"'
                       ]    
