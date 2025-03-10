@@ -26,6 +26,10 @@ spec:
               template: make-predictions
               dependencies: [wait-for-spark]
 
+            - name: trigger-another-workflow
+              template: trigger-another-workflow-template
+              dependencies: [make-predictions]
+
       - name: spark-extract-data-template
         resource:
           action: create
@@ -78,7 +82,7 @@ spec:
             'echo echo "[1,2,3,4]"'
           ]
 
-      - name: trigger-another-workflow
+      - name: trigger-another-workflow-template
         container:
         image: alpine/curl:latest
         args: [
