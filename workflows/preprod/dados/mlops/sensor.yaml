@@ -20,12 +20,7 @@ spec:
               metadata:
                 name: special-trigger
               spec:
-                entrypoint: whalesay
-                arguments:
-                  parameters:
-                    - name: message
-                      # the value will get overridden by event payload from test-dep
-                      value: hello world
+                entrypoint: hello-world
                 templates:
                   - name: hello-world
                     image: alpine:latest
