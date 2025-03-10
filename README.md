@@ -45,4 +45,4 @@ Portforward ArgoCD
 `kubectl port-forward service/argocd-server -n argo-cd 8080:443`
 
 Portforward argo workflow
-`kubectl port-forward service/argo-workflow-argo-workflows-server 2746:2746 -n argo-workflow`a
+`kubectl port-forward service/argo-workflow-argo-workflows-server 2746:2746 -n argo-workflow`
