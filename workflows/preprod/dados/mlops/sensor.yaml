@@ -21,19 +21,28 @@ spec:
               metadata:
                 name: special-trigger
               spec:
-                entrypoint: hello-world
+                entrypoint: auto-trigger-workflow
                 templates:
-                  - name: hello-world
+                  - name: auto-trigger-workflow
+                    dag:
+                      tasks:
+                        - name: hello-1
+                          template: hello-1-template
+                        - name: hello-2
+                          template: hello-2-template
+                          dependencies: [hello-1]
+
+                  - name: hello-1-template
                     container:
                       image: alpine:latest
                       command: [sh, -c]
                       args: [
-                        'echo hello-world'
+                        'echo hello-world-1"'
                       ]
-                  - name: hello-world-2
+                  - name: hello-2-template
                     container:
                       image: alpine:latest
                       command: [sh, -c]
                       args: [
-                        'echo hello-world-2'
-                      ]
+                        'echo hello-world-2"'
+                      ]    
