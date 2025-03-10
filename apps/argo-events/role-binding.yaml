@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: argo-role-binding
+  namespace: argo-events
+subjects:
+  - kind: ServiceAccount
+    name: operate-workflow-sa
+    namespace: argo-events
+roleRef:
+  kind: Role
+  name: argo-workflow-role
+  apiGroup: rbac.authorization.k8s.io

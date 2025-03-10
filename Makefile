@@ -50,4 +50,16 @@ install-spark-operator: check-dependencies ## Install Spark Operator
 		--values ./apps/spark-operator/values.yaml \
 		--wait
 
+install-argo-events: check-dependencies ## Install Argo Events
+	@helm upgrade --install argo-events argo-events \
+		--repo https://argoproj.github.io/argo-helm \
+		--namespace argo-events \
+		--create-namespace \
+		--values ./apps/argo-events/values.yaml \
+		--version 2.4.13 \
+		--wait
+	@kubectl apply -f ./apps/argo-events/sa.yaml
+	@kubectl apply -f ./apps/argo-events/role.yaml
+	@kubectl apply -f ./apps/argo-events/role-binding.yaml
+
 install-all: check-dependencies add-helm-repositories install-spark-operator install-argo-workflow install-argocd ## Install all resources
