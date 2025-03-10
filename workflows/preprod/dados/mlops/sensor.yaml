@@ -11,31 +11,29 @@ spec:
   triggers:
     - template:
         name: webhook-workflow-trigger
-        k8s:
-          operation: create
+        argoWorkflow:
+          operation: submit
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1
               kind: Workflow
               metadata:
-                generateName: hello-world-
-                labels:
-                  workflows.argoproj.io/archive-strategy: "false"
-                annotations:
-                  workflows.argoproj.io/description: |
-                    This is a simple hello world example.
+                name: special-trigger
               spec:
-                entrypoint: hello-world
+                entrypoint: whalesay
+                arguments:
+                  parameters:
+                    - name: message
+                      # the value will get overridden by event payload from test-dep
+                      value: hello world
                 templates:
-                - name: hello-world
-                  container:
+                  - name: hello-world
                     image: alpine:latest
                     command: [sh, -c]
                     args: [
                       'echo hello-world'
                     ]
-                - name: hello-world-2
-                  container:
+                  - name: hello-world-2
                     image: alpine:latest
                     command: [sh, -c]
                     args: [
