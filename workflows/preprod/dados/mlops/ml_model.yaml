@@ -41,7 +41,7 @@ spec:
               mode: cluster
               image: spark:3.5.3
               imagePullPolicy: IfNotPresent
-              mainClass: org.apache.spark.examples.SparkPi2
+              mainClass: org.apache.spark.examples.SparkPi
               mainApplicationFile: local:///opt/spark/examples/jars/spark-examples.jar
               arguments:
               - "5000"
@@ -77,3 +77,16 @@ spec:
           args: [
             'echo echo "[1,2,3,4]"'
           ]
+
+      - name: trigger-another-workflow
+        container:
+        image: alpine/curl:latest
+        args: [
+          "-d",
+          '{"message":"this is my first webhook"}',
+          "-H",
+          "Content-Type: application/json",
+          "-X",
+          "POST",
+          "http://webhook-eventsource-svc.default.svc.cluster.local:12000"
+        ]
