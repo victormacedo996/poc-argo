@@ -13,7 +13,7 @@ spec:
     - template:
         name: webhook-workflow-trigger
         argoWorkflow:
-          operation: submit
+          operation: create
           source:
             resource:
               apiVersion: argoproj.io/v1alpha1
