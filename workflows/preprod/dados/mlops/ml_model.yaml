@@ -92,5 +92,5 @@ spec:
             "Content-Type: application/json",
             "-X",
             "POST",
-            "http://webhook-eventsource-svc.workflow.svc.cluster.local:12000/example"
+            "http://webhook-eventsource-svc.default.svc.cluster.local:12000/example"
           ]
