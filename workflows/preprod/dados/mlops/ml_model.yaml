@@ -84,13 +84,13 @@ spec:
 
       - name: trigger-another-workflow-template
         container:
-        image: alpine/curl:latest
-        args: [
-          "-d",
-          '{"message":"this is my first webhook"}',
-          "-H",
-          "Content-Type: application/json",
-          "-X",
-          "POST",
-          "http://webhook-eventsource-svc.default.svc.cluster.local:12000"
-        ]
+          image: alpine/curl:latest
+          args: [
+            "-d",
+            '{"message":"this is my first webhook"}',
+            "-H",
+            "Content-Type: application/json",
+            "-X",
+            "POST",
+            "http://webhook-eventsource-svc.default.svc.cluster.local:12000"
+          ]
