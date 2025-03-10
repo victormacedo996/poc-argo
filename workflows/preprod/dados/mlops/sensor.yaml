@@ -22,14 +22,16 @@ spec:
                 entrypoint: hello-world
                 templates:
                   - name: hello-world
-                    image: alpine:latest
-                    command: [sh, -c]
-                    args: [
-                      'echo hello-world'
-                    ]
+                    container:
+                      image: alpine:latest
+                      command: [sh, -c]
+                      args: [
+                        'echo hello-world'
+                      ]
                   - name: hello-world-2
-                    image: alpine:latest
-                    command: [sh, -c]
-                    args: [
-                      'echo hello-world-2'
-                    ]
+                    container:
+                      image: alpine:latest
+                      command: [sh, -c]
+                      args: [
+                        'echo hello-world-2'
+                      ]
