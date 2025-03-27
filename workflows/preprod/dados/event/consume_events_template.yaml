@@ -14,7 +14,7 @@ spec:
           - path: 'body.data.success'
             type: bool
             value:
-              - 'true'
+              - true
   triggers:
     - template:
         name: webhook-workflow-trigger
