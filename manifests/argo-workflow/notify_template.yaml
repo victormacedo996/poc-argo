@@ -18,7 +18,7 @@ spec:
         image: alpine/curl:latest
         args: [
           "-d",
-          '{{inputs.parameters.msg}}',
+          '{"data": {{inputs.parameters.msg}} }',
           "-H",
           "Content-Type: application/json",
           "-X",
