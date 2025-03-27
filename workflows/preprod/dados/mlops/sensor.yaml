@@ -21,6 +21,10 @@ spec:
               metadata:
                 generateName: special-trigger-
               spec:
+                ttlStrategy:
+                  secondsAfterCompletion: 10 # Time to live after workflow is completed, replaces ttlSecondsAfterFinished
+                  secondsAfterSuccess: 30     # Time to live after workflow is successful
+                  secondsAfterFailure: 30 
                 entrypoint: auto-trigger-workflow
                 templates:
                   - name: auto-trigger-workflow
