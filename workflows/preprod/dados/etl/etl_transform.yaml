@@ -19,7 +19,7 @@ spec:
               template: flip-coin-template
 
             - name: notify-success
-              when: "{{tasks.etl-transform.status}} == Succeeded"
+              when: "{{tasks.etl-transform.succeeded}} == true"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
