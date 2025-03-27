@@ -11,7 +11,7 @@ spec:
       eventName: example
       filters:
         data:
-          - path: 'body.data.success'
+          - path: 'data.success'
             type: bool
             value:
               - true
@@ -27,9 +27,9 @@ spec:
               metadata:
                 generateName: check-finished-etl-
               spec:
-                ttlStrategy:
-                  secondsAfterCompletion: 3600 # Time to live after workflow is completed, replaces ttlSecondsAfterFinished
-                  secondsAfterSuccess: 3600     # Time to live after workflow is successful
-                  secondsAfterFailure: 3600 
+                # ttlStrategy:
+                #   secondsAfterCompletion: 3600 # Time to live after workflow is completed, replaces ttlSecondsAfterFinished
+                #   secondsAfterSuccess: 3600     # Time to live after workflow is successful
+                #   secondsAfterFailure: 3600 
                 workflowTemplateRef:
                   name: run-after-etl
