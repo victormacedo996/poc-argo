@@ -37,6 +37,7 @@ spec:
                 parameters:
                   - name: msg
                     value: '{"table_transform_name": "{{cronworkflow.name}}", "success": false}'
+              dependencies: [etl-transform]
 
       - name: flip-coin-template
         script:
