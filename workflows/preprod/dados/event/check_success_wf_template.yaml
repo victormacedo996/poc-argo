@@ -4,6 +4,11 @@ metadata:
   name: run-after-etl
   namespace: workflow
 spec:
+  entrypoint: test-etl
+  ttlStrategy:
+    secondsAfterCompletion: 10 # Time to live after workflow is completed, replaces ttlSecondsAfterFinished
+    secondsAfterSuccess: 30     # Time to live after workflow is successful
+    secondsAfterFailure: 30 
   templates:
       - name: test-etl
         dag:
