@@ -10,10 +10,6 @@ spec:
         parameters:
           - name: msg
             value: '{"finished": true}'
-      # http:
-      #   url: http://webhook-eventsource-svc.workflow.svc.cluster.local:12000/example
-      #   method: POST
-      #   body: '{{inputs.parameters.msg}}'
       container:
         image: alpine/curl:latest
         args: [

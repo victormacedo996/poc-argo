@@ -35,7 +35,15 @@ helm upgrade --install spark-operator spark-operator/spark-operator \
     --wait
 ```
 
-4. Aplicar o Application set para syncar os workflows
+4. Aplicar os manifestos do argo workflow
+`kubectl apply -f ./manifests/argo-workflow/notify.yaml`
+
+5. Aplicar os manifestos do argo events
+```
+kubectl apply -f ./manifests/argo-events/event-bus.yaml && \
+kubectl apply -f ./manifests/argo-events/event-source.yaml
+```
+6. Aplicar o Application set para syncar os workflows
 `kubectl apply -f ./manifests/argocd/applicationset.yaml`
 
 
