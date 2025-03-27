@@ -19,7 +19,6 @@ spec:
               template: flip-coin-template
 
             - name: notify-success
-              when: tasks["etl-transform"].status == "Succeeded"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
@@ -27,9 +26,9 @@ spec:
                 parameters:
                   - name: msg
                     value: '{"table_transform_name": "{{cronworkflow.name}}", "success": true}'
+              depends: etl-transform.Succeeded
 
             - name: notify-failure
-              when: tasks["etl-transform"].status}} != "Succeeded"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
@@ -37,6 +36,7 @@ spec:
                 parameters:
                   - name: msg
                     value: '{"table_transform_name": "{{cronworkflow.name}}", "success": false}'
+              depends: etl-transform.Failed
 
       - name: flip-coin-template
         script:
