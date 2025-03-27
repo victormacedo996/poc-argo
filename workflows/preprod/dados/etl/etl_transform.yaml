@@ -16,7 +16,7 @@ spec:
         dag:
           tasks:
             - name: etl-transform
-              template: etl-transform-template
+              template: flip-coin-template
 
             - name: notify-success
               when: tasks["etl-transform"].status == "Succeeded"
@@ -38,10 +38,12 @@ spec:
                   - name: msg
                     value: '{"table_transform_name": "{{cronworkflow.name}}", "success": false}'
 
-      - name: etl-transform-template
-        container:
-          image: alpine
-          args: [
-            'exit',
-            '$((RANDOM % 2))'
-          ]
+      - name: flip-coin-template
+        script:
+          image: python:alpine3.6
+          command: [python]
+          source: |
+            import random
+            import sys
+            results = random.randint(0,1)
+            sys.exit(results)
