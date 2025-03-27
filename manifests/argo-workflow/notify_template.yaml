@@ -1,0 +1,16 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: notify-wf-template
+  namespace: workflow
+spec:
+  templates:
+    - name: notify-template
+      inputs:
+        parameters:
+          - name: msg
+            value: '{"finished": true}'
+      http:
+        url: http://webhook-eventsource-svc.workflow.svc.cluster.local:12000/example
+        method: POST
+        body: '{{inputs.parameters.msg}}'

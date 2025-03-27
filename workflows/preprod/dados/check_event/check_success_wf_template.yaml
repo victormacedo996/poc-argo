@@ -1,0 +1,21 @@
+apiVersion: argoproj.io/v1alpha1
+kind: WorkflowTemplate
+metadata:
+  name: run-after-etl
+  namespace: workflow
+spec:
+  templates:
+      - name: test-etl
+        dag:
+          tasks:
+            - name: test-run-after-etl
+              template: test-run-after-etl-template
+
+      - name: test-run-after-etl-template
+        container:
+          image: alpine:latest
+          command: [sh, -c]
+          args: [
+            'echo rodou!!!"'
+          ]
+

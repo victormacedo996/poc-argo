@@ -1,0 +1,45 @@
+apiVersion: argoproj.io/v1alpha1
+kind: CronWorkflow
+metadata:
+  name: send-events
+spec:
+  schedule: "* * * * *"
+  timezone: "America/Sao_Paulo"
+  successfulJobsHistoryLimit: 2
+  concurrencyPolicy: Forbid
+  failedJobsHistoryLimit: 4
+  suspend: false
+  workflowSpec:
+    entrypoint: etl-transform
+    templates:
+      - name: etl-transform
+        dag:
+          tasks:
+            - name: etl-transform
+              template: etl-transform-template
+            - name: notify-success
+              when: "{{steps.run-etl.status}} == Succeeded"
+              templateRef:
+                name: notify-wf-template
+                template: notify-template
+              arguments:
+                parameters:
+                  - name: msg
+                    value: '{"table_transform_name": "{{cronworkflow.name}}", "success": true}'
+            - name: notify-failure
+              when: "{{steps.run-etl.status}} != Succeeded"
+              templateRef:
+                name: notify-wf-template
+                template: notify-template
+              arguments:
+                parameters:
+                  - name: msg
+                    value: '{"table_transform_name": "{{cronworkflow.name}}", "success": false}'
+
+      - name: etl-transform-template
+        container:
+          image: alpine
+          args: [
+            'exit',
+            '$((RANDOM % 2))'
+          ]
