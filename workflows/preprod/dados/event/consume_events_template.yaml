@@ -8,7 +8,7 @@ spec:
   dependencies:
     - name: check-success
       eventSourceName: webhook
-      eventName: webhook
+      eventName: example
       filters:
         data:
           - path: 'body.success'
