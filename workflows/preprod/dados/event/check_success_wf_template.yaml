@@ -21,5 +21,6 @@ spec:
           image: alpine:latest
           command: [sh, -c]
           args: [
-            'echo "[1,2,3,4]"'
+            'echo',
+            '[1,2,3,4]'
           ]
