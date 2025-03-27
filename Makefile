@@ -33,6 +33,7 @@ install-argo-workflow: check-dependencies ## Install Argo worflows
 		--version 0.45.8 \
 		--wait
 	@kubectl apply -f ./apps/workflow/namespace.yaml
+	@kubectl apply -f ./apps/argo-workflow/sa.yaml
 
 install-argocd: check-dependencies ## Install ArgoCD
 	@helm upgrade --install argocd argo-cd \
@@ -40,15 +41,13 @@ install-argocd: check-dependencies ## Install ArgoCD
 		--namespace argo-cd \
 		--create-namespace \
 		--values ./apps/argo-cd/values.yaml \
-		--version 7.8.8 \
-		--wait
+		--version 7.8.8
 
 install-spark-operator: check-dependencies ## Install Spark Operator
 	@helm upgrade --install spark-operator spark-operator/spark-operator \
     	--namespace spark-operator \
 		--create-namespace \
-		--values ./apps/spark-operator/values.yaml \
-		--wait
+		--values ./apps/spark-operator/values.yaml
 
 install-argo-events: check-dependencies ## Install Argo Events
 	@helm upgrade --install argo-events argo-events \
@@ -56,10 +55,7 @@ install-argo-events: check-dependencies ## Install Argo Events
 		--namespace argo-events \
 		--create-namespace \
 		--values ./apps/argo-events/values.yaml \
-		--version 2.4.13 \
-		--wait
+		--version 2.4.13
 	@kubectl apply -f ./apps/argo-events/sa.yaml
-	@kubectl apply -f ./apps/argo-events/role.yaml
-	@kubectl apply -f ./apps/argo-events/role-binding.yaml
 
-install-all: check-dependencies add-helm-repositories install-spark-operator install-argo-workflow install-argocd ## Install all resources
+install-all: check-dependencies add-helm-repositories install-spark-operator install-argo-workflow install-argocd install-argo-events ## Install all resources
