@@ -11,7 +11,7 @@ spec:
       eventName: example
       filters:
         data:
-          - path: 'body.success'
+          - path: 'success'
             type: bool
             value:
               - 'true'
