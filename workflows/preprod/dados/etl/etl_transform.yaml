@@ -18,7 +18,7 @@ spec:
             - name: etl-transform
               template: etl-transform-template
             - name: notify-success
-              when: "{{steps.run-etl.status}} == Succeeded"
+              when: "{{steps.etl-transform.status}} == Succeeded"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
@@ -27,7 +27,7 @@ spec:
                   - name: msg
                     value: '{"table_transform_name": "{{cronworkflow.name}}", "success": true}'
             - name: notify-failure
-              when: "{{steps.run-etl.status}} != Succeeded"
+              when: "{{steps.etl-transform.status}} != Succeeded"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
