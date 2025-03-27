@@ -19,7 +19,7 @@ spec:
               template: etl-transform-template
 
             - name: notify-success
-              when: '{{tasks["etl-transform"].status}} == "Succeeded"'
+              when: tasks["etl-transform"].status == "Succeeded"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
@@ -29,7 +29,7 @@ spec:
                     value: '{"table_transform_name": "{{cronworkflow.name}}", "success": true}'
               dependencies: [etl-transform]
             - name: notify-failure
-              when: '{{tasks["etl-transform"].status}} != "Succeeded"'
+              when: tasks["etl-transform"].status}} != "Succeeded"
               templateRef:
                 name: notify-wf-template
                 template: notify-template
